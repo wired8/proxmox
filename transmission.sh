@@ -605,10 +605,9 @@ qm set $VMID --agent 1
 
 qm set $VMID --scsi1 $STORAGE:cloudinit
 
-cat << EOF | sudo tee /var/lib/vz/snippets/transmission.yaml
+cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
 #cloud-config
     timezone: America/Vancouver 
-#cloud-config
     runcmd:
         - apt-get update
         - apt-get install -y qemu-guest-agent
