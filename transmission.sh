@@ -609,9 +609,10 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
 #cloud-config
     timezone: America/Vancouver 
     runcmd:
+        - echo "Setting up NTP and timezone"
         - timedatectl set-ntp true
         - timedatectl set-timezone America/Vancouver
-    runcmd:
+        - apt-get update
         - apt-get install -y nfs-common transmission-daemon qemu-guest-agent
         - systemctl enable ssh
         - |
