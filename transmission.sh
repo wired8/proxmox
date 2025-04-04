@@ -613,6 +613,12 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
         - timedatectl set-timezone America/Vancouver
     runcmd:
         - apt-get install -y nfs-common transmission-daemon qemu-guest-agent
+        - systemctl enable ssh
+        - |
+          sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+        - |
+          sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+        - systemctl restart sshd
         - systemctl stop transmission-daemon
         - |
           sed -i 's|/var/lib/transmission-daemon/downloads|${NAS_DOWNLOAD_PATH}|' \
