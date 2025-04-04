@@ -21,7 +21,7 @@ EOF
 }
 header_info
 echo -e "\n Loading..."
-GEN_MAC=02:$(openssl rand -hex 5 | awk '{print toupper($0)}' | sed 's/\(..\)/\1:/g; s/.$//')
+GEN_MAC=02:b2:d5:61:80:a1 #02:$(openssl rand -hex 5 | awk '{print toupper($0)}' | sed 's/\(..\)/\1:/g; s/.$//')
 NEXTID=$(pvesh get /cluster/nextid)
 RANDOM_UUID="$(cat /proc/sys/kernel/random/uuid)"
 METHOD=""
@@ -628,6 +628,9 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
           /etc/transmission-daemon/settings.json
         - |
           sed -i 's/"rpc-whitelist-enabled": true/"rpc-whitelist-enabled": false/' \
+          /etc/transmission-daemon/settings.json
+        - |
+          sed -i 's/"rpc-authentication-required": true"/"rpc-authentication-required": false/' \
           /etc/transmission-daemon/settings.json
         - systemctl start transmission-daemon
         - mkdir -p $NAS_DOWNLOAD_PATH 
