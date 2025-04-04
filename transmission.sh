@@ -615,6 +615,7 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
         - apt-get install -y nfs-common transmission-daemon qemu-guest-agent
         - systemctl enable ssh
         - |
+          echo "Allowing root login via SSH"
           sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
         - |
           sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
@@ -632,7 +633,6 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
         - echo "$NAS_IP:/download $NAS_DOWNLOAD_PATH nfs defaults 0 0" >> /etc/fstab
         - echo "$NAS_IP:/media $NAS_MEDIA_PATH nfs defaults 0 0" >> /etc/fstab
         - mount -a
-        - systemctl enable ssh
         - reboot
 EOF
 
