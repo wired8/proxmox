@@ -620,7 +620,8 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
           sed -i 's/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
         - |
           sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
-        - systemctl restart sshd
+        - rm /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
+        - systemctl restart ssh
         - systemctl stop transmission-daemon
         - |
           sed -i 's|/var/lib/transmission-daemon/downloads|${NAS_DOWNLOAD_PATH}|' \
@@ -631,8 +632,8 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
         - systemctl start transmission-daemon
         - mkdir -p $NAS_DOWNLOAD_PATH 
         - mkdir -p $NAS_MEDIA_PATH
-        - echo "$NAS_IP:/download $NAS_DOWNLOAD_PATH nfs defaults 0 0" >> /etc/fstab
-        - echo "$NAS_IP:/media $NAS_MEDIA_PATH nfs defaults 0 0" >> /etc/fstab
+        - echo "$NAS_IP:/$NAS_DOWNLOAD_PATH $NAS_DOWNLOAD_PATH nfs defaults 0 0" >> /etc/fstab
+        - echo "$NAS_IP:/$NAS_MEDIA_PATH $NAS_MEDIA_PATH nfs defaults 0 0" >> /etc/fstab
         - mount -a
         - reboot
 EOF
