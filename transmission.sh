@@ -608,14 +608,11 @@ qm set $VMID --scsi1 $STORAGE:cloudinit
 cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
 #cloud-config
     timezone: America/Vancouver 
-    package_reboot_if_required: true
-    package_update: true
-    package_upgrade: true
-    packages:
-        - qemu-guest-agent
-        - transmission-daemon
-        - nfs-common
     runcmd:
+        - timedatectl set-ntp true
+        - timedatectl set-timezone America/Vancouver
+    runcmd:
+        - apt-get install -y nfs-common transmission-daemon qemu-guest-agent
         - systemctl stop transmission-daemon
         - |
           sed -i 's|/var/lib/transmission-daemon/downloads|${NAS_DOWNLOAD_PATH}|' \
