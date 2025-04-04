@@ -629,10 +629,10 @@ cat << EOF | tee /var/lib/vz/snippets/transmission.yaml
         - reboot
 EOF
 
-sudo qm set $VMID --cicustom "vendor=local:snippets/transmission.yaml"
-sudo qm set $VMID --tags ubuntu-transmission-template,noble,cloudinit
-sudo qm set $VMID --ciuser $USER
-sudo qm set $VMID --ipconfig0 ip=dhcp
+qm set $VMID --cicustom "vendor=local:snippets/transmission.yaml"
+qm set $VMID --tags ubuntu-transmission-template,noble,cloudinit
+qm set $VMID --ciuser $USER
+qm set $VMID --ipconfig0 ip=dhcp
 
 msg_info "Starting Ubuntu 22.04 VM"
 qm start $VMID
